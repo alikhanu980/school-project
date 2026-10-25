@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0b192c;
+  --color-navy-2: #14284a;
+  --color-gold: #c9a24b;
+  --color-gold-bright: #e2bd5c;
+  --color-cream: #f7f3ea;
+  --color-paper: #fffbf2;
+  --color-sun: #ffc83d;
+  --color-coral: #ff6b5b;
+  --color-mint: #3cc8a0;
+  --color-sky: #5ab4f0;
+  --color-lav: #b79cff;
+  --color-pink: #ff8fa3;
+
+  --font-display: var(--font-fredoka), ui-rounded, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: auto;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-navy);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-navy);
+}
+
+@layer components {
+/* chunky, squishy kid buttons */
+.btn-kid {
+  @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-display font-semibold transition-transform active:translate-y-1;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.18);
+}
+.btn-kid:active {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
+}
+
+.btn-gold {
+  @apply inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-bold uppercase tracking-wider text-navy transition-colors hover:bg-gold-bright;
+}
+.btn-ghost {
+  @apply inline-flex items-center gap-2 rounded-full border border-current px-6 py-3 text-sm font-bold uppercase tracking-wider transition-colors;
+}
+
+.eyebrow {
+  @apply text-xs font-bold uppercase tracking-[0.22em] text-gold;
+}
+
+}
+
+/* marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* soft colour blobs: a radial mask instead of filter: blur() keeps them cheap to animate */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(30px, -25px, 0) scale(1.12);
+  }
+}
+.blob {
+  border-radius: 9999px;
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  animation: drift 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+.blob-mask {
+  border-radius: 42% 58% 60% 40% / 45% 40% 60% 55%;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+.wiggle {
+  animation: wiggle 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
